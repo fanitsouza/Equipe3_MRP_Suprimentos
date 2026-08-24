@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1560 980" width="100%" height="100%">
+  <defs>
+    <style>
+      .pool { fill: #f8f9fa; stroke: #343a40; stroke-width: 2; }
+      .lane-hdr { font-family: 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 12px; font-weight: bold; fill: #212529; }
+      .task { fill: #fff3cd; stroke: #856404; stroke-width: 1.5; rx: 8; ry: 8; }
+      .task-macro { fill: #f8d7da; stroke: #721c24; stroke-width: 1.5; rx: 8; ry: 8; }
+      .task-sis { fill: #d1ecf1; stroke: #0c5460; stroke-width: 1.5; rx: 8; ry: 8; }
+      .task-mgr { fill: #e2e3e5; stroke: #383d41; stroke-width: 1.5; rx: 8; ry: 8; }
+      .task-rep { fill: #d4edda; stroke: #28a745; stroke-width: 1.5; rx: 8; ry: 8; }
+      .task-title { font-family: 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 11px; font-weight: bold; fill: #212529; text-anchor: middle; }
+      .task-desc { font-family: 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 9px; fill: #495057; text-anchor: middle; }
+      .gateway { fill: #ffeaa7; stroke: #d39e00; stroke-width: 2; }
+      .ev-start { fill: #d4edda; stroke: #28a745; stroke-width: 2.5; }
+      .ev-end { fill: #f8d7da; stroke: #dc3545; stroke-width: 3; }
+      .flow { stroke: #495057; stroke-width: 1.5; fill: none; marker-end: url(#arrow); }
+      .flow-err { stroke: #c92a2a; stroke-width: 1.5; fill: none; marker-end: url(#arrow-red); }
+      .gw-label { font-family: 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 9px; font-weight: bold; fill: #212529; text-anchor: middle; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#495057" />
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#c92a2a" />
+    </marker>
+  </defs>
+
+  <!-- Pool Header -->
+  <rect x="20" y="20" width="1520" height="920" class="pool" />
+  <rect x="20" y="20" width="45" height="920" fill="#343a40" />
+  <text x="-480" y="50" transform="rotate(-90)" fill="#ffffff" font-family="'Segoe UI', Arial" font-size="14" font-weight="bold" text-anchor="middle">LG Electronics — Processo Atual de Planejamento MRP em Suprimentos (AS-IS)</text>
+
+  <!-- Lane 1: Sistemas -->
+  <rect x="65" y="20" width="1475" height="190" fill="#e9ecef" stroke="#adb5bd" />
+  <text x="75" y="110" class="lane-hdr">SISTEMAS &amp; E-MAIL (GERP, N-FP, GRP, Outlook)</text>
+
+  <!-- Lane 2: Analista -->
+  <rect x="65" y="210" width="1475" height="370" fill="#ffffff" stroke="#adb5bd" />
+  <text x="75" y="400" class="lane-hdr">ANALISTA DE SUPRIMENTOS (Operação 100% Manual)</text>
+
+  <!-- Lane 3: Excel VBA -->
+  <rect x="65" y="580" width="1475" height="190" fill="#f1f3f5" stroke="#adb5bd" />
+  <text x="75" y="680" class="lane-hdr">EXCEL MASTER ALL (Macros VBA Locais)</text>
+
+  <!-- Lane 4: Gestão -->
+  <rect x="65" y="770" width="1475" height="170" fill="#ffffff" stroke="#adb5bd" />
+  <text x="75" y="860" class="lane-hdr">GESTÃO DE SUPRIMENTOS (Felipe Campelo / Compras)</text>
+
+  <!-- Elements -->
+  <!-- Start Event -->
+  <circle cx="110" cy="115" r="22" class="ev-start" />
+  <text x="110" y="152" font-family="'Segoe UI', Arial" font-size="9" font-weight="bold" fill="#155724" text-anchor="middle">07:30h Início</text>
+  <text x="110" y="164" font-family="'Segoe UI', Arial" font-size="8" fill="#155724" text-anchor="middle">Recebe e-mails e saldos</text>
+
+  <!-- Task 1: Clean -->
+  <rect x="180" y="250" width="110" height="65" class="task" />
+  <text x="235" y="272" class="task-title">Passo 1: Abrir</text>
+  <text x="235" y="287" class="task-desc">Master All anterior</text>
+  <text x="235" y="300" class="task-desc">e limpar abas antigas</text>
+
+  <!-- Task 2: Onhand -->
+  <rect x="320" y="250" width="120" height="65" class="task" />
+  <text x="380" y="272" class="task-title">Passos 2 a 4: Onhand</text>
+  <text x="380" y="287" class="task-desc">Baixa Onhand DX e cola</text>
+  <text x="380" y="300" class="task-desc">saldo atual na aba</text>
+
+  <!-- Task 3: N-FP Extract -->
+  <rect x="470" y="80" width="120" height="65" class="task-sis" />
+  <text x="530" y="104" class="task-title">Extrair Plano N-FP</text>
+  <text x="530" y="119" class="task-desc">Download bruto da</text>
+  <text x="530" y="132" class="task-desc">produção mensal</text>
+
+  <!-- Task 4: N-FP Clean -->
+  <rect x="470" y="340" width="150" height="90" class="task" />
+  <text x="545" y="360" class="task-title">Passos 5 e 6: Tratar Plano</text>
+  <text x="545" y="375" class="task-desc">• Recorte D+13 dias até sáb.</text>
+  <text x="545" y="388" class="task-desc">• Excluir domingos/feriados</text>
+  <text x="545" y="401" class="task-desc">• 8 semanas e meses futuros</text>
+  <text x="545" y="414" class="task-desc">• Colar na 2ª cél. PlanPPH</text>
+
+  <!-- Task 5: Macro Onhand -->
+  <rect x="660" y="635" width="120" height="65" class="task-macro" />
+  <text x="720" y="657" class="task-title">Macro: Update Onhand</text>
+  <text x="720" y="672" class="task-desc">Ctrl+Q no Excel</text>
+  <text x="720" y="685" class="task-desc">(Espera 3 a 5 min)</text>
+
+  <!-- Task 6: Macro Plan -->
+  <rect x="810" y="635" width="120" height="65" class="task-macro" />
+  <text x="870" y="657" class="task-title">Macro: Update Plan</text>
+  <text x="870" y="672" class="task-desc">Execução de cálculo</text>
+  <text x="870" y="685" class="task-desc">(Espera 12 a 15 min)</text>
+
+  <!-- Task 7: Delivery Status -->
+  <rect x="955" y="250" width="135" height="75" class="task" />
+  <text x="1022" y="270" class="task-title">Passo 7: Delivery Status</text>
+  <text x="1022" y="285" class="task-desc">Extrair GERP, apagar</text>
+  <text x="1022" y="298" class="task-desc">colunas C a AV e colar</text>
+  <text x="1022" y="311" class="task-desc">(Repete a cada 20 min)</text>
+
+  <!-- Gateway 1: BOM -->
+  <polygon points="1135,287 1165,257 1195,287 1165,317" class="gateway" />
+  <text x="1165" y="244" class="gw-label">Há alteração</text>
+  <text x="1165" y="254" class="gw-label">de BOM hoje?</text>
+
+  <!-- Task 8: BOM Update -->
+  <rect x="1225" y="250" width="135" height="75" class="task" />
+  <text x="1292" y="270" class="task-title">Passo 8: Update BOM</text>
+  <text x="1292" y="285" class="task-desc">Update BOM (1 min)</text>
+  <text x="1292" y="298" class="task-desc">Summary Master (25 min)</text>
+  <text x="1292" y="311" class="task-desc">Trava o computador</text>
+
+  <!-- Gateway 2: Integrity -->
+  <polygon points="1395,385 1425,355 1455,385 1425,415" class="gateway" />
+  <text x="1425" y="342" class="gw-label">Data BOM ==</text>
+  <text x="1425" y="352" class="gw-label">Data Summary?</text>
+
+  <!-- Task 9: Reprocess Manual -->
+  <rect x="1225" y="450" width="135" height="65" class="task-macro" />
+  <text x="1292" y="472" class="task-title">Retrabalho Manual</text>
+  <text x="1292" y="487" class="task-desc">Investigar divergência</text>
+  <text x="1292" y="500" class="task-desc">e reexecutar macros</text>
+
+  <!-- Task 10: Reports -->
+  <rect x="1360" y="480" width="130" height="65" class="task-rep" />
+  <text x="1425" y="502" class="task-title">Passo 10: Relatórios</text>
+  <text x="1425" y="517" class="task-desc">Elaborar balanços</text>
+  <text x="1425" y="530" class="task-desc">Diário, Semanal e Mensal</text>
+
+  <!-- Task 11: Gestao -->
+  <rect x="1360" y="810" width="130" height="65" class="task-mgr" />
+  <text x="1425" y="832" class="task-title">Revisão Gerencial</text>
+  <text x="1425" y="847" class="task-desc">Felipe Campelo / Compras</text>
+  <text x="1425" y="860" class="task-desc">Decisões e compras</text>
+
+  <!-- End Event -->
+  <circle cx="1250" cy="842" r="22" class="ev-end" />
+  <text x="1250" y="880" font-family="'Segoe UI', Arial" font-size="9" font-weight="bold" fill="#721c24" text-anchor="middle">Fim do Ciclo</text>
+  <text x="1250" y="892" font-family="'Segoe UI', Arial" font-size="8" fill="#721c24" text-anchor="middle">Lead Time ~50 min</text>
+
+  <!-- Flows -->
+  <path d="M 132 115 L 235 115 L 235 250" class="flow" />
+  <path d="M 290 282 L 320 282" class="flow" />
+  <path d="M 440 282 L 455 282 L 455 112 L 470 112" class="flow" />
+  <path d="M 530 145 L 530 340" class="flow" />
+  <path d="M 620 385 L 640 385 L 640 667 L 660 667" class="flow" />
+  <path d="M 780 667 L 810 667" class="flow" />
+  <path d="M 930 667 L 945 667 L 945 287 L 955 287" class="flow" />
+  <path d="M 1090 287 L 1135 287" class="flow" />
+  <path d="M 1195 287 L 1225 287" class="flow" />
+  <path d="M 1165 317 L 1165 385 L 1395 385" class="flow" />
+  <path d="M 1360 287 L 1425 287 L 1425 355" class="flow" />
+  <path d="M 1425 415 L 1425 480" class="flow" />
+  <path d="M 1395 385 L 1292 385 L 1292 450" class="flow-err" />
+  <path d="M 1425 545 L 1425 810" class="flow" />
+  <path d="M 1360 842 L 1272 842" class="flow" />
+</svg>
