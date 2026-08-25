@@ -1,0 +1,8 @@
+De: compras@fornecedor-c.example
+Para: suprimentos@portalfake.example
+Assunto: Atualização de capacidade e prazo — MAT003
+
+Por problemas de alfândega, a capacidade semanal do MAT003 foi reduzida de 150 para 100 unidades.
+O prazo de entrega passou de 10 para 14 dias.
+
+Fornecedor C

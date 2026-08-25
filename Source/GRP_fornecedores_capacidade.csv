@@ -1,0 +1,5 @@
+﻿Fornecedor;Material;Capacidade_Semanal;Prazo_Dias;Preco_Unitario;Status
+Fornecedor A;MAT001;200;5;100;Ativo
+Fornecedor B;MAT002;400;7;90;Ativo
+Fornecedor C;MAT003;150;10;110;Ativo
+Fornecedor D;MAT004;250;6;105;Ativo

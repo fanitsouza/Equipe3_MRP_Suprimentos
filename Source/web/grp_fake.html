@@ -1,0 +1,8 @@
+<!doctype html><html><head><meta charset="utf-8"><title>GRP Fake</title></head><body>
+<h1>GRP — Fornecedores</h1><form onsubmit="login(event)"><input id="u" placeholder="Usuário"><input id="p" type="password" placeholder="Senha"><button>Entrar</button></form>
+<div id="app" style="display:none"><table border="1"><tr><th>Fornecedor</th><th>Material</th><th>Capacidade</th><th>Prazo</th><th>Preço</th></tr>
+<tr><td>Fornecedor A</td><td>MAT001</td><td>200</td><td>5</td><td>100</td></tr>
+<tr><td>Fornecedor B</td><td>MAT002</td><td>400</td><td>7</td><td>90</td></tr>
+<tr><td>Fornecedor C</td><td>MAT003</td><td>150</td><td>10</td><td>110</td></tr>
+<tr><td>Fornecedor D</td><td>MAT004</td><td>250</td><td>6</td><td>105</td></tr></table></div>
+<script>function login(e){e.preventDefault();if(u.value==='aluno'&&p.value==='avaliacao2026'){document.querySelector('form').style.display='none';app.style.display='block'}else alert('Credenciais inválidas')}</script></body></html>
