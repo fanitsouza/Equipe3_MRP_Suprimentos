@@ -2,6 +2,7 @@
 
 from .engine import calcular_mrp
 from .exceptions import DadosInvalidosError
+from .integration import calcular_mrp_da_coleta
 from .models import (
     AtualizacaoFornecedor,
     EstoqueMaterial,
@@ -20,5 +21,6 @@ __all__ = [
     "Severidade",
     "StatusMRP",
     "calcular_mrp",
+    "calcular_mrp_da_coleta",
 ]
 
