@@ -6,8 +6,8 @@ from enum import Enum
 import logging
 from typing import TypeVar
 
-from .severity import Severity
-from .structured_logging import log_event
+from src.observability.severity import Severity
+from src.observability.structured_logging import log_event
 
 
 T = TypeVar("T")

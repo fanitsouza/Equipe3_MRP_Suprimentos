@@ -14,6 +14,8 @@ load_dotenv(ROOT_DIR / "Source" / ".env")
 @dataclass(frozen=True)
 class Settings:
     source_dir: Path
+    output_dir: Path
+    alert_file: Path
     grp_url: str
     grp_user: str
     grp_password: str
@@ -24,6 +26,12 @@ def get_settings() -> Settings:
     return Settings(
         source_dir=Path(
             os.getenv("SOURCE_DIR", str(ROOT_DIR / "Source"))
+        ).resolve(),
+        output_dir=Path(
+            os.getenv("OUTPUT_DIR", str(ROOT_DIR / "output"))
+        ).resolve(),
+        alert_file=Path(
+            os.getenv("ALERT_FILE", str(ROOT_DIR / "logs" / "alerts.jsonl"))
         ).resolve(),
         grp_url=os.getenv(
             "GRP_URL",

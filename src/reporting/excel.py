@@ -8,10 +8,10 @@ from typing import Any
 
 from openpyxl import Workbook, load_workbook
 
-from .input_contract import ContractValidationError
-from .models import MRPResult
-from .severity import Severity
-from .structured_logging import log_event
+from src.observability.severity import Severity
+from src.observability.structured_logging import log_event
+
+from .models import ContractValidationError, MRPInputContract as MRPResult
 
 
 REPORT_HEADERS = [

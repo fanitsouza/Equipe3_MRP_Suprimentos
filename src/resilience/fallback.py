@@ -1,14 +1,17 @@
 from __future__ import annotations
 
+import json
 import logging
 import time
+from pathlib import Path
 from typing import Protocol
 
-from .alerts import AlertSink, send_alert
+from src.observability.alerts import AlertSink, send_alert
+from src.observability.severity import Severity
+from src.observability.structured_logging import log_event
+from src.reporting.models import MRPInputContract as MRPResult
+
 from .circuit_breaker import CircuitBreaker, CircuitOpenError
-from .models import MRPResult
-from .severity import Severity
-from .structured_logging import log_event
 
 
 class MRPProvider(Protocol):
@@ -22,6 +25,33 @@ class StaticMRPProvider:
 
     def get_results(self) -> list[MRPResult]:
         return list(self.results)
+
+
+class JsonMRPProvider:
+    """Lê a última saída MRP válida usada como fallback local."""
+
+    def __init__(self, path: str | Path) -> None:
+        self.path = Path(path)
+
+    def get_results(self) -> list[MRPResult]:
+        if not self.path.exists():
+            raise FileNotFoundError(f"Cache MRP não encontrado: {self.path}")
+        payload = json.loads(self.path.read_text(encoding="utf-8"))
+        if not isinstance(payload, list):
+            raise ValueError("Cache MRP inválido")
+        return [MRPResult(**item) for item in payload]
+
+
+def save_mrp_cache(results: list[MRPResult], path: str | Path) -> Path:
+    output = Path(path)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    temporary = output.with_suffix(output.suffix + ".tmp")
+    temporary.write_text(
+        json.dumps([item.to_dict() for item in results], ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    temporary.replace(output)
+    return output
 
 
 class FallbackMRPProvider:
@@ -76,7 +106,7 @@ class FallbackMRPProvider:
             level=Severity.WARNING,
             event="mrp_fallback_used",
             module="fallback",
-            message="Responsabilidade 3 usando dados mock/fallback do MRP",
+            message="Pipeline usando dados de fallback do MRP",
             execution_id=self.execution_id,
             error_type=error_type or code,
             reason=reason,
@@ -85,7 +115,7 @@ class FallbackMRPProvider:
             self.alert_sink,
             level=Severity.WARNING,
             code=code,
-            message="Responsabilidade 3 operando com dados mock/fallback do MRP",
+            message="Pipeline operando com dados de fallback do MRP",
             context={"reason": reason},
             logger=self.logger,
             execution_id=self.execution_id,

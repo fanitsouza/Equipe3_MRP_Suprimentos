@@ -7,29 +7,25 @@ from pathlib import Path
 import pytest
 from openpyxl import load_workbook
 
-from responsabilidade3.adapter import AdapterError, adapt_mrp_records
-from responsabilidade3.alerts import InMemoryAlertSink, send_alert
-from responsabilidade3.circuit_breaker import CircuitBreaker, CircuitState
-from responsabilidade3.fallback import FallbackMRPProvider, StaticMRPProvider
-from responsabilidade3.fixtures import (
+from src.observability import InMemoryAlertSink, Severity, log_event, send_alert
+from src.reporting import (
+    AdapterError,
+    ContractValidationError,
+    MRPInputContract,
+    MRPInputContractDict,
+    MRPResult,
+    REPORT_HEADERS,
+    ReportGenerationError,
+    adapt_mrp_records,
+    generate_excel_report,
+)
+from src.resilience import CircuitBreaker, CircuitState, FallbackMRPProvider, StaticMRPProvider
+from tests.support.responsibility3_fixtures import (
     FailingMRPProvider,
     mock_invalid_mrp_records,
     mock_mrp_raw_records,
     mock_mrp_results,
 )
-from responsabilidade3.input_contract import (
-    ContractValidationError,
-    MRPInputContract,
-    MRPInputContractDict,
-)
-from responsabilidade3.models import MRPResult
-from responsabilidade3.report import (
-    REPORT_HEADERS,
-    ReportGenerationError,
-    generate_excel_report,
-)
-from responsabilidade3.severity import Severity
-from responsabilidade3.structured_logging import log_event
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -244,9 +240,9 @@ def test_fallback_logs_and_publishes_alert_when_primary_fails(caplog) -> None:
 
     assert results == mock_mrp_results()
     payload = _json_log_payload(caplog, "mrp_fallback_used")
-    assert payload["level"] == "WARNING"
+    assert payload["level"] == "AVISO"
     assert alerts.alerts[0].code == "MRP_FALLBACK_ATIVADO"
-    assert alerts.alerts[0].level == "WARNING"
+    assert alerts.alerts[0].level == "AVISO"
 
 
 def test_send_alert_redacts_sensitive_context_and_logs(caplog) -> None:
@@ -362,7 +358,7 @@ def test_structured_log_includes_expected_fields(caplog) -> None:
 
     payload = _json_log_payload(caplog, "step_failed")
     assert payload["timestamp"]
-    assert payload["level"] == "ERROR"
+    assert payload["level"] == "ERRO"
     assert payload["execution_id"] == "exec-log"
     assert payload["supplier"] == "Fornecedor A"
     assert payload["error_type"] == "RuntimeError"

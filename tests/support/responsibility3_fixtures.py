@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from .models import MRPResult
+from src.reporting.models import MRPInputContract as MRPResult
 
 
 def mock_mrp_results() -> list[MRPResult]:

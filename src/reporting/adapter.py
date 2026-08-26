@@ -3,8 +3,10 @@ from __future__ import annotations
 from collections.abc import Iterable, Mapping
 from typing import Any
 
-from .input_contract import ContractValidationError
-from .models import MRPResult
+from src.models.data import StockRecord
+from src.mrp.models import ResultadoMRP
+
+from .models import ContractValidationError, MRPInputContract as MRPResult
 
 
 class AdapterError(ValueError):
@@ -44,7 +46,6 @@ REQUIRED_FIELDS = (
     "fornecedor",
     "estoque_atual",
     "necessidade",
-    "quantidade_comprar",
 )
 
 
@@ -56,6 +57,33 @@ def adapt_mrp_records(records: Iterable[Mapping[str, Any]]) -> list[MRPResult]:
     """
 
     return [_adapt_one(record, index) for index, record in enumerate(records, start=1)]
+
+
+def adapt_engine_results(
+    results: Iterable[ResultadoMRP],
+    stocks: Iterable[StockRecord],
+) -> list[MRPResult]:
+    """Adapta os resultados tipados reais do motor para o relatório."""
+    stock_by_material = {item.material: item for item in stocks}
+    adapted: list[MRPResult] = []
+    for result in results:
+        stock = stock_by_material.get(result.material)
+        if stock is None:
+            raise AdapterError(f"Estoque ausente para {result.material}")
+        adapted.append(
+            MRPResult(
+                material=result.material,
+                fornecedor=result.fornecedor,
+                estoque_atual=stock.stock,
+                necessidade=result.necessidade_calculada,
+                quantidade_comprar=result.quantidade_sugerida,
+                capacidade=result.capacidade_considerada,
+                prazo_dias=result.prazo_considerado_dias,
+                status_validacao=result.status.value,
+                observacao=result.mensagem,
+            )
+        )
+    return adapted
 
 
 def _adapt_one(record: Mapping[str, Any], index: int) -> MRPResult:

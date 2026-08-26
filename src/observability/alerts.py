@@ -57,7 +57,7 @@ def send_alert(
     level: Severity | str,
     message: str,
     context: dict[str, Any] | None = None,
-    code: str = "RESP3_ALERT",
+    code: str = "MRP_ALERT",
     logger: logging.Logger | None = None,
     execution_id: str | None = None,
 ) -> Alert:

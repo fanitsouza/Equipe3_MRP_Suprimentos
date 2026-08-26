@@ -13,7 +13,7 @@ class _MRPInputRequiredDict(TypedDict):
     fornecedor: str
     estoque_atual: int
     necessidade: int
-    quantidade_comprar: int
+    quantidade_comprar: int | None
 
 
 class MRPInputContractDict(_MRPInputRequiredDict, total=False):
@@ -37,7 +37,7 @@ class MRPInputContract:
     fornecedor: str
     estoque_atual: int
     necessidade: int
-    quantidade_comprar: int
+    quantidade_comprar: int | None
     capacidade: int | None = None
     prazo_dias: int | None = None
     status_validacao: str = "OK"
@@ -62,7 +62,9 @@ class MRPInputContract:
         object.__setattr__(
             self,
             "quantidade_comprar",
-            _coerce_non_negative_int(self.quantidade_comprar, "quantidade_comprar"),
+            _coerce_optional_non_negative_int(
+                self.quantidade_comprar, "quantidade_comprar"
+            ),
         )
         object.__setattr__(
             self,

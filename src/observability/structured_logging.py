@@ -79,7 +79,7 @@ def _is_sensitive_key(key: Any) -> bool:
 
 _LOGGING_LEVELS = {
     Severity.INFO: logging.INFO,
-    Severity.WARNING: logging.WARNING,
-    Severity.ERROR: logging.ERROR,
-    Severity.CRITICAL: logging.CRITICAL,
+    Severity.AVISO: logging.WARNING,
+    Severity.ERRO: logging.ERROR,
+    Severity.CRITICO: logging.CRITICAL,
 }
