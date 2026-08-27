@@ -28,7 +28,11 @@ def validar_fornecedores(fornecedores: Iterable[Fornecedor]) -> list[Fornecedor]
         _validar_texto(item.material, "material")
         _validar_inteiro_nao_negativo(item.capacidade_semanal, "capacidade_semanal", item.material)
         _validar_inteiro_nao_negativo(item.prazo_dias, "prazo_dias", item.material)
-        if not isinstance(item.preco_unitario, (int, float)) or isinstance(item.preco_unitario, bool) or item.preco_unitario < 0:
+        if (
+            not isinstance(item.preco_unitario, (int, float))
+            or isinstance(item.preco_unitario, bool)
+            or item.preco_unitario < 0
+        ):
             raise DadosInvalidosError(f"preco_unitario inválido para {item.material}: {item.preco_unitario!r}")
         if item.material in vistos:
             raise DadosInvalidosError(f"Mais de um fornecedor principal para o material: {item.material}")

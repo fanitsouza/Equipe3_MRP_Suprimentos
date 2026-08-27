@@ -1,4 +1,4 @@
-﻿.env
+.env
 .venv/
 __pycache__/
 .pytest_cache/
@@ -6,3 +6,7 @@ __pycache__/
 
 logs/
 output/
+.coverage
+coverage.xml
+test-results.xml
+htmlcov/

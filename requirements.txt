@@ -4,4 +4,6 @@ playwright>=1.40,<2.0
 pypdf>=4.0,<7.0
 python-dotenv>=1.0,<2.0
 pytest>=8.0,<10.0
+pytest-cov>=4.0,<6.0
+flake8>=6.0,<8.0
 

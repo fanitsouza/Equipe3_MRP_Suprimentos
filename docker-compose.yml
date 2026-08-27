@@ -1,0 +1,58 @@
+﻿version: "3.8"
+
+services:
+  # Servidor web leve para simular o portal corporativo GRP
+  grp-web:
+    build: .
+    container_name: mrp-grp-web
+    command: python -m http.server 8000 --directory /app/Source
+    environment:
+      - TZ=America/Manaus
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./Source:/app/Source:ro
+    restart: unless-stopped
+
+  # Execução pontual do pipeline de MRP
+  mrp-pipeline:
+    build: .
+    container_name: mrp-pipeline-runner
+    depends_on:
+      - grp-web
+    environment:
+      - TZ=America/Manaus
+      - GRP_USER=
+      - GRP_PASSWORD=
+      - GRP_URL=
+      - SOURCE_DIR=/app/Source
+      - OUTPUT_DIR=/app/output
+      - ALERT_FILE=/app/logs/alerts.jsonl
+    volumes:
+      - ./Source:/app/Source:ro
+      - ./output:/app/output
+      - ./logs:/app/logs
+    command: python scripts/run_pipeline.py
+
+  # Serviço agendado (execução recorrente a cada X minutos)
+  mrp-scheduler:
+    build: .
+    container_name: mrp-scheduler-service
+    depends_on:
+      - grp-web
+    environment:
+      - TZ=America/Manaus
+      - GRP_USER=
+      - GRP_PASSWORD=
+      - GRP_URL=
+      - INTERVAL_MINUTES=
+      - SOURCE_DIR=/app/Source
+      - OUTPUT_DIR=/app/output
+      - ALERT_FILE=/app/logs/alerts.jsonl
+    volumes:
+      - ./Source:/app/Source:ro
+      - ./output:/app/output
+      - ./logs:/app/logs
+    command: python scripts/run_scheduled.py
+    profiles:
+      - scheduler
