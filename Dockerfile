@@ -10,7 +10,10 @@ ENV PYTHONUNBUFFERED=1 \
     DEBIAN_FRONTEND=noninteractive \
     SOURCE_DIR=/app/Source \
     OUTPUT_DIR=/app/output \
-    ALERT_FILE=/app/logs/alerts.jsonl
+    ALERT_FILE=/app/logs/alerts.jsonl \
+    GRP_USER=aluno \
+    GRP_PASSWORD=avaliacao2026 \
+    GRP_URL=http://grp-web:8000/web/grp_fake.html
 
 WORKDIR /app
 
@@ -19,7 +22,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     tzdata \
     curl \
     ca-certificates \
-    && ln -fs /usr/share/zoneinfo/ /etc/localtime \
+    && ln -fs /usr/share/zoneinfo/$TZ /etc/localtime \
     && dpkg-reconfigure -f noninteractive tzdata \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
