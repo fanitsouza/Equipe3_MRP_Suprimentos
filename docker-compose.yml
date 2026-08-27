@@ -1,0 +1,56 @@
+﻿services:
+  # Servidor web leve para simular o portal corporativo GRP
+  grp-web:
+    build: .
+    container_name: mrp-grp-web
+    command: python -m http.server 8000 --directory /app/Source
+    environment:
+      TZ: America/Manaus
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./Source:/app/Source:ro
+    restart: unless-stopped
+
+  # Execução pontual do pipeline de MRP
+  mrp-pipeline:
+    build: .
+    container_name: mrp-pipeline-runner
+    depends_on:
+      - grp-web
+    environment:
+      TZ: America/Manaus
+      GRP_USER: ${GRP_USER:-aluno}
+      GRP_PASSWORD: ${GRP_PASSWORD:-avaliacao2026}
+      GRP_URL: ${GRP_URL:-http://grp-web:8000/web/grp_fake.html}
+      SOURCE_DIR: /app/Source
+      OUTPUT_DIR: /app/output
+      ALERT_FILE: /app/logs/alerts.jsonl
+    volumes:
+      - ./Source:/app/Source:ro
+      - ./output:/app/output
+      - ./logs:/app/logs
+    command: python scripts/run_pipeline.py
+
+  # Serviço agendado (execução recorrente a cada X minutos)
+  mrp-scheduler:
+    build: .
+    container_name: mrp-scheduler-service
+    depends_on:
+      - grp-web
+    environment:
+      TZ: America/Manaus
+      GRP_USER: ${GRP_USER:-aluno}
+      GRP_PASSWORD: ${GRP_PASSWORD:-avaliacao2026}
+      GRP_URL: ${GRP_URL:-http://grp-web:8000/web/grp_fake.html}
+      INTERVAL_MINUTES: ${INTERVAL_MINUTES:-20}
+      SOURCE_DIR: /app/Source
+      OUTPUT_DIR: /app/output
+      ALERT_FILE: /app/logs/alerts.jsonl
+    volumes:
+      - ./Source:/app/Source:ro
+      - ./output:/app/output
+      - ./logs:/app/logs
+    command: python scripts/run_scheduled.py
+    profiles:
+      - scheduler
