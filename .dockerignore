@@ -1,4 +1,4 @@
-﻿.git
+.git
 .gitignore
 .venv
 venv
@@ -16,5 +16,6 @@ logs/
 .env
 *.docx
 *.pdf
+!Source/**/*.pdf
 .DS_Store
 Thumbs.db
